@@ -3,7 +3,7 @@ import types
 from sqlalchemy import tuple_, or_, and_, inspect
 from sqlalchemy.ext.declarative.clsregistry import _class_resolver
 from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy.ext.associationproxy import ASSOCIATION_PROXY
+from sqlalchemy.ext.associationproxy import ASSOCIATION_PROXY, AssociationProxyInstance
 from sqlalchemy.sql.operators import eq
 from sqlalchemy.exc import DBAPIError
 from sqlalchemy.orm.attributes import InstrumentedAttribute
@@ -216,4 +216,6 @@ def is_relationship(attr):
 
 
 def is_association_proxy(attr):
+    if isinstance(attr, AssociationProxyInstance):
+        return True
     return hasattr(attr, 'extension_type') and attr.extension_type == ASSOCIATION_PROXY
